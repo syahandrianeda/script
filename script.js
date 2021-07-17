@@ -183,5 +183,26 @@ const kliklamaso = async () => {
                     }
                 })
         })
+};
+
+const loginot = () => {
+    cek.innerHTML = "<i class='fa fa-spin fa-spinner'></i>"
+    let inputvalue = previewtokenn.value;
+    fetch(url_login_siswa + "&id=" + inputvalue)
+        .then(m => m.json())
+        .then(k => {
+            console.log(k);
+            if (k.ijinkan == "ok") {
+                k["ote"] = "orangtua";
+                window.localStorage.setItem("typeuser", JSON.stringify(k));
+                window.location.replace("/user/orangtua.html");
+                // ceksiswa.innerHTML = k.ijinkan;
+
+            } else {
+                cek.innerHTML = k.ijinkan;
+                window.localStorage.removeItem("typeuser");
+            }
+
+        })
 }
 
