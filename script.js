@@ -149,3 +149,39 @@ function fn2lihatpassword(id, labell) { // fungsi untuk melihat input password (
     }
 
 };
+
+const kliklamaso = async () => {
+    ceksiswa.innerHTML = "<i class='fa fa-spin fa-spinner'></i>"
+    let inputvalue = previewtoken.value;
+    await fetch(url_login_siswa + "&id=" + inputvalue)
+        .then(m => m.json())
+        .then(k => {
+            // console.log(k)
+            if (k.ijinkan == "ok") {
+                window.localStorage.setItem("typeuser", JSON.stringify(k));
+                window.location.replace("/user/siswa.html");
+                // ceksiswa.innerHTML = k.ijinkan;
+
+            } else {
+                ceksiswa.innerHTML = k.ijinkan;
+                window.localStorage.removeItem("typeuser");
+            }
+
+        }).catch(err => {
+            console.log("terjadi error, sedang meminta kembali: " + err);
+            fetch(url_login_siswa + "&id=" + inputvalue).then(m => m.json())
+                .then(k => {
+                    // console.log(k)
+                    if (k.ijinkan == "ok") {
+                        window.localStorage.setItem("typeuser", JSON.stringify(k));
+                        window.location.replace("/user/siswa.html");
+                        // ceksiswa.innerHTML = k.ijinkan;
+
+                    } else {
+                        ceksiswa.innerHTML = k.ijinkan;
+                        window.localStorage.removeItem("typeuser");
+                    }
+                })
+        })
+}
+
